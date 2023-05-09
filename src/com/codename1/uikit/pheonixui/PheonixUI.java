@@ -56,7 +56,7 @@ public class PheonixUI {
             current.show();
             return;
         }
-        new SignInForm(theme).show();
+        new NewsfeedForm(theme).show();
     }
 
     public void stop() {

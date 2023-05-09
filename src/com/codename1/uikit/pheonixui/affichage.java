@@ -38,8 +38,9 @@ import com.codename1.ui.events.ActionEvent;
 import com.codename1.ui.events.ActionListener;
 import com.codename1.ui.layouts.BoxLayout;
 import com.codename1.ui.util.Resources;
-import com.codename1.uikit.entities.offre;
-import com.codename1.uikit.services.Service;
+import com.codename1.uikit.entities.Evenement;
+import com.codename1.uikit.services.ServiceRec;
+
 import java.io.IOException;
 import java.util.ArrayList;
 
@@ -56,9 +57,9 @@ private static final String HTML_API_KEY = "AIzaSyC_i6nNp6sOrxr_VmksWPmibQn5aIHM
  
 
 
-    public affichage(Resources res,offre evt) {
+    public affichage(Resources res,Evenement evt) {
       
-      super("OFFRE", BoxLayout.y());
+      super("Evenement", BoxLayout.y());
         Container c1=new Container();
      installSidemenu(res);
         getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ARROW_LEFT, new ActionListener() {
@@ -75,12 +76,13 @@ private static final String HTML_API_KEY = "AIzaSyC_i6nNp6sOrxr_VmksWPmibQn5aIHM
             //Logger.getLogger(MyApplication.class.getName()).log(Level.SEVERE, null, ex);
         }
          Label ll=new Label();
-        Label nom=new Label("Nom : "+evt.getNom());
-        Label decription=new Label("decription : "+evt.getDecription());
-        Label couleur =new Label("couleur : "+evt.getCouleur());
-        Label type=new Label("Type : "+evt.getType());
-        Label datedeb=new Label("Date debut : "+evt.getDate_deb());
-        Label datefin=new Label("Date fin : "+evt.getDate_fin());
+        Label nomevenement=new Label("nomevenement : "+evt.getNomevenement());
+        Label descriptionevenement=new Label("descriptionevenement : "+evt.getDescriptionevenement());
+         Label DateR =new Label("Date : "+evt.getDateR());
+        Label prixevenement =new Label("prixevenement : "+evt.getPrixevenement());
+        Label nbreparticipantmax =new Label("nbreparticipantmax : "+evt.getNbreparticipantmax());
+        Label nbreparticipant =new Label("nbreparticipant : "+evt.getNbreparticipant());
+        Label idUsere =new Label("idUsere : "+evt.getIdUsere());
         
        
        
@@ -90,50 +92,32 @@ private static final String HTML_API_KEY = "AIzaSyC_i6nNp6sOrxr_VmksWPmibQn5aIHM
         Delete.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent evvt) {
-              Service.getInstance().Delete(evt);
+              ServiceRec.getInstance().Delete(evt);
               new NewsfeedForm(res).show();
           }
       });
         
-        
-        
         update.addActionListener(new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent evvt) {
-               new updateProd(res,evt).show();
+               new updaterec(res,evt).show();
           }
       });
-        
-        
-        
-          try {
-              enim=EncodedImage.create("/giphy.gif");
+
            
-              if(evt.getImage().contains("file")){
-               img=URLImage.createToStorage(enim,evt.getImage(), evt.getImage(),URLImage.RESIZE_SCALE).scaled(500,350);
-   
-              }else{
-            img=URLImage.createToStorage(enim,"http://127.0.0.1:8000/uploads/"+evt.getImage(), "http://127.0.0.1:8000/uploads/"+evt.getImage(),URLImage.RESIZE_SCALE).scaled(500,350);
-              }            
-//double[] val=new double[]{};
-             // System.out.println(evt.getImage());
-            
-              add(img);
-              add(nom);
-              add(decription);
-              add(couleur);
-              add(type);
-              add(datedeb);
-              add(datefin);
+              add(nomevenement);
+              add(descriptionevenement);
+              add(DateR) ;
+              add(prixevenement) ; 
+              add(nbreparticipantmax) ; 
+                add(nbreparticipant) ; 
+              add(idUsere) ; 
               add(update);
               add(Delete);
               
             //  add(nbrmax);
               
-            
-          } catch (IOException ex) {
-              
-          }
+      
         
         
         
@@ -141,12 +125,12 @@ private static final String HTML_API_KEY = "AIzaSyC_i6nNp6sOrxr_VmksWPmibQn5aIHM
         
         
         
-       LocalNotification n = new LocalNotification();
+        LocalNotification n = new LocalNotification();
         n.setId("Baskel");
-        n.setAlertBody("c'est le temps de voir les evenements");
+        n.setAlertBody("u got a recalamtion ");
         n.setAlertTitle("Break Time!");
         n.setAlertSound("/notification_sound_bells.mp3"); //file name must begin with notification_sound
-
+         
 
         Display.getInstance().scheduleLocalNotification(n,System.currentTimeMillis() ,LocalNotification.REPEAT_MINUTE);
         Display.getInstance().showNotify();

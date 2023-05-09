@@ -25,6 +25,10 @@ import com.codename1.components.SpanLabel;
 import com.codename1.ui.Button;
 import com.codename1.ui.ButtonGroup;
 import com.codename1.ui.Component;
+import static com.codename1.ui.Component.BOTTOM;
+import static com.codename1.ui.Component.CENTER;
+import static com.codename1.ui.Component.LEFT;
+import static com.codename1.ui.Component.RIGHT;
 import com.codename1.ui.Container;
 import com.codename1.ui.Display;
 import com.codename1.ui.EncodedImage;
@@ -45,8 +49,9 @@ import com.codename1.ui.layouts.FlowLayout;
 import com.codename1.ui.layouts.LayeredLayout;
 import com.codename1.ui.plaf.Style;
 import com.codename1.ui.util.Resources;
-import com.codename1.uikit.entities.offre;
-import com.codename1.uikit.entities.participation;
+
+import com.codename1.uikit.entities.Evenement;
+
 import com.codename1.uikit.services.*;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,42 +67,32 @@ EncodedImage enim;
  ImageViewer imv;
 Resources r;
  
-ArrayList<offre> evts;
+ArrayList<Evenement> evts;
 
     public NewsfeedForm(Resources res) {
-      super("offre", BoxLayout.y());
+      super("Evenement", BoxLayout.y());
       
       r=res;
         
-        offre evt=new offre();
-       evts=Service.getInstance().getAllTasks();   
+        Evenement evt=new Evenement();
+       evts=ServiceRec.getInstance().affichageEvenements();   
         installSidemenu(res);
         getContentPane().setScrollVisible(false);
        
        getToolbar().addMaterialCommandToRightBar("", FontImage.MATERIAL_ADD, new ActionListener() {
           @Override
           public void actionPerformed(ActionEvent evt) {
-              new AjoutProd(r).show();
+             new Ajoutrec(r).show();
           }
       });
-        TextField rech=new TextField();
-        rech.setHint("Nom");
-        Button re=new Button();
-        re.setText("Chercher");
-        re.addActionListener(new ActionListener() {
-          @Override
-          public void actionPerformed(ActionEvent evt) {
-              new NewsfeedForm1(r, Service.getInstance().getAllTasksByNom(rech.getText())).show();
-          }
-      });
-        add(rech);
-        add(re);
+
+
         Tabs swipe = new Tabs();
 
         Label spacer1 = new Label();
         Label spacer2 = new Label();
     try {
-        addTab(swipe, Image.createImage("/logo.jpg"), spacer1, "", "", "");
+        addTab(swipe, Image.createImage("/logo.png"), spacer1, "", "", "");
     } catch (IOException ex) {
        
     }
@@ -144,7 +139,7 @@ ArrayList<offre> evts;
        
         
         if(evts.size()==0){
-            evts=Service.getInstance().getAllTasks();
+            evts=ServiceRec.getInstance().affichageEvenements();
         }
         
         for(int i=0;i<evts.size();i++){
@@ -156,7 +151,7 @@ ArrayList<offre> evts;
             //imv=new ImageViewer(img);  
             //  add(imv);
              // Form hi = new Form("Flow Layout", new FlowLayout());
-            addButton(img, evt.getNom(), true,26, 32,res,evt);
+            addButton(img, evt.getNomevenement(), true,26, 32,res,evt);
             
           } catch (IOException ex) {
               
@@ -210,7 +205,7 @@ ArrayList<offre> evts;
         swipe.addTab("", page1);
     }
     
-   private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount, Resources res, offre evt) {
+   private void addButton(Image img, String title, boolean liked, int likeCount, int commentCount, Resources res, Evenement evt) {
        int height = Display.getInstance().convertToPixels(11.5f);
        int width = Display.getInstance().convertToPixels(14f);
        Button image = new Button(img.fill(width, height));
@@ -244,7 +239,7 @@ ArrayList<offre> evts;
        image.addActionListener(new ActionListener() {
            @Override
            public void actionPerformed(ActionEvent e) {
-               new affichage(res,evt).show();
+             new affichage(res,evt).show();
                
            }
        });
